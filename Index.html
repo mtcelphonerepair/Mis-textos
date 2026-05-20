@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Textos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --accent: #f0c040;
+    --accent2: #e07030;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: #2e2e2e;
+    --success: #50c878;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 80px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+
+  .count {
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* ADD FORM */
+  .add-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .add-box input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    outline: none;
+    transition: border 0.2s;
+  }
+
+  .add-box input:focus {
+    border-color: var(--accent);
+  }
+
+  .add-box textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    resize: vertical;
+    min-height: 90px;
+    outline: none;
+    transition: border 0.2s;
+    margin-bottom: 10px;
+  }
+
+  .add-box textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .btn-add {
+    width: 100%;
+    background: var(--accent);
+    color: #0f0f0f;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .btn-add:active { transform: scale(0.98); opacity: 0.85; }
+
+  /* SEARCH */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 11px 14px 11px 40px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border 0.2s;
+  }
+
+  .search-wrap input:focus { border-color: var(--accent); }
+
+  .search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  /* CARDS */
+  .cards { display: flex; flex-direction: column; gap: 12px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: #3e3e3e; }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-bottom: 8px;
+    padding-right: 60px;
+  }
+
+  .card-body {
+    font-size: 0.88rem;
+    color: #bbb;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .card-actions {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-copy {
+    background: var(--accent2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .btn-copy:active { transform: scale(0.95); }
+
+  .btn-copy.copied {
+    background: var(--success);
+    color: #0f0f0f;
+  }
+
+  .btn-delete {
+    background: transparent;
+    border: 1px solid #3e3e3e;
+    color: var(--muted);
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-delete:hover { background: #ff444422; color: #ff6666; border-color: #ff4444; }
+
+  /* EMPTY */
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 0;
+    font-size: 0.9rem;
+  }
+
+  .empty span { display: block; font-size: 2rem; margin-bottom: 10px; }
+
+  /* TOGGLE ADD */
+  .toggle-add {
+    background: transparent;
+    border: 1px dashed var(--accent);
+    color: var(--accent);
+    border-radius: 12px;
+    padding: 11px;
+    width: 100%;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 16px;
+    transition: background 0.2s;
+  }
+
+  .toggle-add:hover { background: #f0c04011; }
+
+  .add-box { display: none; }
+  .add-box.open { display: block; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--success);
+    color: #0f0f0f;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: transform 0.3s ease;
+    z-index: 999;
+    white-space: nowrap;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📋 Mis Textos</h1>
+  <span class="count" id="count">0 textos</span>
+</header>
+
+<button class="toggle-add" onclick="toggleAdd()">+ Agregar nuevo texto</button>
+
+<div class="add-box" id="addBox">
+  <input type="text" id="newTitle" placeholder="Título (ej: Saludo cliente)" />
+  <textarea id="newText" placeholder="Escribe el texto aquí..."></textarea>
+  <button class="btn-add" onclick="addCard()">Guardar texto</button>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="search" placeholder="Buscar texto..." oninput="renderCards()" />
+</div>
+
+<div class="cards" id="cards"></div>
+<div class="toast" id="toast">¡Copiado!</div>
+
+<script>
+  const STORAGE_KEY = 'mis_textos_v1';
+
+  let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+  // Default texts if empty
+  if (data.length === 0) {
+    data = [
+      { id: 1, title: "Saludo", text: "Hola, ¿cómo estás? En qué te puedo ayudar hoy." },
+      { id: 2, title: "Despedida", text: "Fue un placer atenderte. Cualquier cosa aquí estoy." }
+    ];
+    save();
+  }
+
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function toggleAdd() {
+    const box = document.getElementById('addBox');
+    box.classList.toggle('open');
+    if (box.classList.contains('open')) {
+      document.getElementById('newTitle').focus();
+    }
+  }
+
+  function addCard() {
+    const title = document.getElementById('newTitle').value.trim();
+    const text = document.getElementById('newText').value.trim();
+    if (!text) return;
+    data.unshift({ id: Date.now(), title: title || 'Sin título', text });
+    save();
+    document.getElementById('newTitle').value = '';
+    document.getElementById('newText').value = '';
+    document.getElementById('addBox').classList.remove('open');
+    renderCards();
+  }
+
+  function deleteCard(id) {
+    data = data.filter(d => d.id !== id);
+    save();
+    renderCards();
+  }
+
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓';
+      btn.classList.add('copied');
+      showToast();
+      setTimeout(() => {
+        btn.textContent = 'Copiar';
+        btn.classList.remove('copied');
+      }, 1500);
+    });
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  function renderCards() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const filtered = data.filter(d =>
+      d.title.toLowerCase().includes(q) || d.text.toLowerCase().includes(q)
+    );
+
+    const container = document.getElementById('cards');
+    document.getElementById('count').textContent = `${data.length} texto${data.length !== 1 ? 's' : ''}`;
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="empty"><span>📭</span>${q ? 'No encontré nada' : 'Agrega tu primer texto'}</div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(d => `
+      <div class="card" id="card-${d.id}">
+        <div class="card-title">${escHtml(d.title)}</div>
+        <div class="card-body">${escHtml(d.text)}</div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyText(${JSON.stringify(d.text)}, this)">Copiar</button>
+          <button class="btn-delete" onclick="deleteCard(${d.id})" title="Eliminar">✕</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  renderCards();
+</script>
+</body>
+</html>
